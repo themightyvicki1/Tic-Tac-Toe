@@ -1,0 +1,669 @@
+// Source File Header
+// ttt.cpp
+// Victoria Greer
+// CISP 360 - HW 6
+// July 20, 2022
+
+
+
+// Preprocessor Directives
+#include <iostream> // streams, allows cin & cout
+using namespace std; // organizes name of program entities
+#include <string> // work with strings
+#include <cstdlib> // to use random stream of data
+#include <iomanip> // output formatting
+
+
+
+
+// Function Prototypes
+// Program greeting
+void DisplayGreetingMessage();
+// function to display board, it will be called again and again to update
+void DisplayGameBoard(char);
+// function to display the start menu, this will run once per game
+void DisplayStartMenu(int, char []);
+// function to display the rules of the game, it'll break down to actually playing the game too
+void DisplayGameRules();
+// function to actually play the game
+void PlayTicTacToe(char []);
+//program ending
+void DisplayEndingMessage();
+// check for a winner function
+void CheckForAWinner(char []);
+// end of program message
+void DisplayEndOfProgramMessage();
+
+
+
+
+
+
+// the main function 
+int main()
+{
+  // this is the option they choose from the start menu, if they will choose rules, play, or quit
+  int optionChoice;
+  // this variable is checked in the while of the do while of main, this will allow the user to play another game without having to restart entirely 
+  char playAgain;
+
+  // program greeting function call 
+  DisplayGreetingMessage();
+
+ 
+  // Specification A1 - Main Game Loop
+  // do use this array (so that it'll reset back to the default values if they want to play another game) and display the start menu while they want to play another game, this will call to other functions from the display menu based on their input 
+  do
+    {
+      // Specification A3 - Array Data Type
+      // inside do while to reset array back to default values 
+      char gameBoard[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+      DisplayStartMenu(optionChoice, gameBoard);
+
+      cout << "-Game is over-\n";
+      cout << "Let's check for a winner: \n\n";
+      // call to check for a winner function
+      CheckForAWinner(gameBoard);
+      
+      cout << "Do you want to play another game? (Y/N)\n";
+      cin >> playAgain;
+      // Specification A2 - Simple Prompt
+    } while (playAgain == 'Y' || playAgain == 'y');
+  
+  
+  //code to keep program open 
+  int cherry;
+  cin >> cherry;
+  
+
+
+
+  // output in a comment
+  /*
+  :::::::::::::::Hello!:::::::::::::::
+Welcome to the Tic Tac Toe Program.
+This program will allow you to play a 
+ game of tic tac toe against a computer.
+Created by: Victoria Greer
+Due: July 24, 2022
+::::::::::::::::::::::::::::::::::::
+
+
+~Start Menu~
+Press 1 to read the game rules first
+Press 2 to go straight to play the game
+Press 3 to quit
+9
+
+
+ERROR: Invalid input
+Select 1, 2, or 3
+1
+-Game Rules- 
+>>>Each player will take turns replacing a digit with an X or an O
+>>>The human player and the computer player will have random numbers chose for them between 1 and 10
+>>>The player with the biggest random number will get to go first 
+
+       TIC-TAC-TOE
+        |        |        
+    1   |   2    |   3
+________|________|________
+        |        |        
+    4   |   5    |   6
+________|________|________
+        |        |        
+    7   |   8    |   9
+        |        |        
+
+
+-Deciding the random start-
+>>>The human player's random number is: 7
+>>>The computer player's random number is: 4
+
+!!!The human player will go first
+
+Human player: Enter your position on the board to replace with a X
+1
+Human's choice: 1
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   2    |   3
+________|________|________
+        |        |        
+    4   |   5    |   6
+________|________|________
+        |        |        
+    7   |   8    |   9
+        |        |        
+
+
+Computer player: Select your position on the board to replace with an O
+Computer's choice: 1
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 9
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   2    |   3
+________|________|________
+        |        |        
+    4   |   5    |   6
+________|________|________
+        |        |        
+    7   |   8    |   O
+        |        |        
+
+
+2 turns have been taken 
+Human player: Enter your position on the board to replace with a X
+2
+Human's choice: 2
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   3
+________|________|________
+        |        |        
+    4   |   5    |   6
+________|________|________
+        |        |        
+    7   |   8    |   O
+        |        |        
+
+
+Computer player: Select your position on the board to replace with an O
+Computer's choice: 2
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 6
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   3
+________|________|________
+        |        |        
+    4   |   5    |   O
+________|________|________
+        |        |        
+    7   |   8    |   O
+        |        |        
+
+
+4 turns have been taken 
+Human player: Enter your position on the board to replace with a X
+3
+Human's choice: 3
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    4   |   5    |   O
+________|________|________
+        |        |        
+    7   |   8    |   O
+        |        |        
+
+
+Computer player: Select your position on the board to replace with an O
+Computer's choice: 6
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 6
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 3
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 9
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 1
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 9
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 7
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    4   |   5    |   O
+________|________|________
+        |        |        
+    O   |   8    |   O
+        |        |        
+
+
+6 turns have been taken 
+Human player: Enter your position on the board to replace with a X
+8
+Human's choice: 8
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    4   |   5    |   O
+________|________|________
+        |        |        
+    O   |   X    |   O
+        |        |        
+
+
+Computer player: Select your position on the board to replace with an O
+Computer's choice: 1
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 6
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 3
+
+Error: That spot has already been taken
+Please select another position that does not have an X or O already in it
+Computer's back up choice is 4
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    O   |   5    |   O
+________|________|________
+        |        |        
+    O   |   X    |   O
+        |        |        
+
+
+8 turns have been taken 
+Human player: Enter your position on the board to replace with a X
+5
+Human's choice: 5
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    O   |   X    |   O
+________|________|________
+        |        |        
+    O   |   X    |   O
+        |        |        
+
+
+-Game is over-
+Let's check for a winner: 
+
+       TIC-TAC-TOE
+        |        |        
+    X   |   X    |   X
+________|________|________
+        |        |        
+    O   |   X    |   O
+________|________|________
+        |        |        
+    O   |   X    |   O
+        |        |        
+
+
+Checking for a winner or a draw: 
+Top row is a winner 
+Do you want to play another game? (Y/N)
+n
+*/
+
+
+  
+  return 0;
+}
+
+
+
+
+
+
+
+// program greeting function
+void DisplayGreetingMessage()
+{
+  cout << string(15, ':') << "Hello!" << string(15,':') << endl;
+  cout << "Welcome to the Tic Tac Toe Program.\n";
+  cout << "This program will allow you to play a \n";
+  cout << " game of tic tac toe against a computer.\n";
+  cout << "Created by: Victoria Greer\n";
+  cout << "Due: July 24, 2022\n";
+  cout << string(36, ':') << endl << endl << endl;
+}
+
+
+
+
+
+
+// Specification C2 - Simple Display
+// the gameboard, this is the array displayed inside the game board, it'll update each time it's called
+void DisplayGameBoard(char gameBoard[9])
+{
+  cout << "       TIC-TAC-TOE\n";
+  cout << "        |        |        \n";
+  cout << "    " << gameBoard[0] << "   |   " << gameBoard[1] << "    |   " << gameBoard[2] << endl;
+  cout << "________|________|________\n";
+  cout << "        |        |        \n";
+  cout << "    " << gameBoard[3] << "   |   " << gameBoard[4] << "    |   " << gameBoard[5] << endl;
+  cout << "________|________|________\n";
+  cout << "        |        |        \n";
+  cout << "    " << gameBoard[6] << "   |   " << gameBoard[7] << "    |   " << gameBoard[8] << endl;
+  cout << "        |        |        \n";
+  cout << endl << endl;
+}
+
+
+
+
+
+
+// Specification B1 - Start Menu
+// displaying the start menu, rules, play, or quit
+void DisplayStartMenu(int optionChoice, char gameBoard[9])
+{
+  // display the start menu and get their choice
+  cout << "~Start Menu~\n";
+  cout << "Press 1 to read the game rules first\n";
+  cout << "Press 2 to go straight to play the game\n";
+  cout << "Press 3 to quit\n";
+  cin >> optionChoice;
+  cout << endl << endl;
+
+
+  //Specification B2 - Valid Menu Choices
+  // while the input is not the allowed options, display error message and get new input to be tested again above
+  while ((optionChoice != 1) && (optionChoice != 2) && (optionChoice != 3))
+    {  
+    if (cin.fail())
+    {
+      // if they did not enter an int value at all
+      // clear buffer and ignore rest, get optionChoice and check it again
+      cout << "ERROR: Invalid input\n";
+      cout << "Enter 1, 2, or 3\n";
+      cin.clear();
+      cin.ignore(256, '\n');
+      cin >> optionChoice;
+    }
+    // else if they entered an int that was not 1 2 or 3, get new optionChoice input
+    else if ((optionChoice != 1) && (optionChoice != 2) && (optionChoice != 3))
+    {
+      cout << "ERROR: Invalid input\n";
+      cout << "Select 1, 2, or 3\n"; 
+      cin >> optionChoice;
+    }
+      }
+  switch (optionChoice)
+    {
+      case 1 : DisplayGameRules();
+      case 2 : PlayTicTacToe(gameBoard);
+      break;
+      case 3 : cout << "Quit game\n";
+      break;
+      default : cout << "you did not enter 1, 2, or 3\n";
+  
+  }
+  }
+
+
+
+
+
+// function to display the game rules, this will be called based on the start menu function above
+void DisplayGameRules()
+{
+  cout << "-Game Rules- \n";
+  cout << ">>>Each player will take turns replacing a digit with an X or an O\n";
+  cout << ">>>The human player and the computer player will have random numbers chose for them between 1 and 10\n";
+  cout << ">>>The player with the biggest random number will get to go first \n\n";
+}
+
+
+
+
+
+
+
+
+
+// this is where the game will actually be played, passing the function so that it can be updated during the game
+void PlayTicTacToe(char gameBoard[9])
+{
+
+  // display the gameboard so the users know what their options are to start
+  DisplayGameBoard(gameBoard);
+  int humanPlayer; // human player
+  int computerPlayer; // computer player
+  int firstPlayer; // will be assigned to either the human or the computer player depending on the random value
+  int secondPlayer; // will be assigned to either the human or the computer player depending on the random value
+  int boardPosition; // space on the board (this is what is in the array to be changed)
+
+  
+  
+
+  unsigned seed; // random generator seed so that every time the program runs, it'll run different random numbers instead of the same random numbers
+  // setting a range of random numbers 1-100
+  const int MINI_VALUE = 1; // low end is 1
+  const int MAXI_VALUE = 10; // high end is 10
+  
+  // get seed value for srand
+  seed = time(0);
+  srand(seed); 
+
+  cout << "-Deciding the random start-\n";
+  // Specification C1 - Random Start
+  // generate and print two random numbers
+  // do choose the random numbers while they have the same random number
+  do
+    {
+    humanPlayer = rand() % (MAXI_VALUE - MINI_VALUE + 1) + MINI_VALUE; 
+    computerPlayer = rand() % (MAXI_VALUE - MINI_VALUE + 1) + MINI_VALUE; 
+    cout << ">>>The human player's random number is: " << humanPlayer << endl;
+    cout << ">>>The computer player's random number is: " << computerPlayer << endl << endl;
+      //if human has the biggest number they go first
+    if (humanPlayer > computerPlayer)
+    {
+      cout << "!!!The human player will go first\n\n";
+      firstPlayer = humanPlayer;
+      secondPlayer = computerPlayer;
+      //cout << firstPlayer << " from if \n";
+    }
+    // else if the human has the smallest number they do not go first and the computer will go first
+    else if (humanPlayer < computerPlayer)
+    {
+      cout << "!!!The computer player will go first\n\n";
+      firstPlayer = computerPlayer;
+      secondPlayer = humanPlayer;
+      //cout << firstPlayer << " from else \n";
+    }
+    // while they have the same random number
+    } while (humanPlayer == computerPlayer);
+  
+
+  // get board choice for first player
+  //do get their board position
+  int numberOfTurnsTaken = 0; // counter variable to counter the number of turns taken in the game
+  do
+    {
+      // Specification C3 - AI
+      // if firstplayer is computer player, their input will be assigned randomly
+      if (firstPlayer == computerPlayer)
+      {
+        cout << "Computer player: Select your position on the board to replace with an X\n";
+        boardPosition = rand() % (9 - 1 + 1) + 1; 
+        cout << "Computer's choice: " << boardPosition << endl << endl;
+        // Specification B3 – Valid Move
+        // put the same while code in each so that it'll check for if human is player 1 or if computer is player 1 but will also check for who ever is player 2
+        while (gameBoard[boardPosition-1] != '1' && gameBoard[boardPosition-1] != '2' && gameBoard[boardPosition-1] != '3' && gameBoard[boardPosition-1] != '4' && gameBoard[boardPosition-1] != '5' && gameBoard[boardPosition-1] != '6' && gameBoard[boardPosition-1] != '7' && gameBoard[boardPosition-1] != '8' && gameBoard[boardPosition-1] != '9')
+          {
+            cout << "Error: That spot has already been taken\n";
+            cout << "Please select another position that does not have an X or O already in it\n";
+            // get new input
+            cin.clear();
+            boardPosition = rand() % (9 - 1 + 1) + 1; 
+            cout << "Computer's back up choice is " << boardPosition << endl << endl;
+          }
+      }
+      // else if the human player is the first player they will enter their own input
+      else if (firstPlayer == humanPlayer)
+      {
+        cout << "Human player: Enter your position on the board to replace with a X\n";
+        cin >> boardPosition;
+        cout << "Human's choice: " << boardPosition << endl << endl;
+        // this checks to make sure the human player cannot enter anything besides an int, if they do it'll display an error and ask for a new input, then if the new input passes this check, it'll go down to the while and see if the option is available or has already been taken, if taken it'll ask for a new input and repeat the cycle of input validation 
+        while (cin.fail())
+        {
+          cout << "Error please enter a numeric value\n";
+          cin.clear();
+          cin.ignore(256, '\n');
+          cin >> boardPosition;
+          }
+        // while the cin input is not equal to one of the valid options (what is inside the array)
+        while (gameBoard[boardPosition-1] != '1' && gameBoard[boardPosition-1] != '2' && gameBoard[boardPosition-1] != '3' && gameBoard[boardPosition-1] != '4' && gameBoard[boardPosition-1] != '5' && gameBoard[boardPosition-1] != '6' && gameBoard[boardPosition-1] != '7' && gameBoard[boardPosition-1] != '8' && gameBoard[boardPosition-1] != '9')
+          {
+            cout << "Error: That spot has already been taken\n";
+            cout << "Please select another position that does not have an X or O already in it\n";
+            // get new input
+            cin.clear();
+            cin >> boardPosition;
+            cout << "Human's back up choice is " << endl << endl;
+            
+          }
+      }
+        //checking to see if the board is a digit, if it is a digit it can be replaced with the X
+        if (isdigit(gameBoard[boardPosition-1]))
+        {
+          gameBoard[boardPosition-1] = 'X';
+          DisplayGameBoard(gameBoard);
+          numberOfTurnsTaken = numberOfTurnsTaken+1;
+        }
+        if (numberOfTurnsTaken == 9)
+        {
+          return;
+        }
+    
+      if (secondPlayer == computerPlayer)
+      {
+        cout << "Computer player: Select your position on the board to replace with an O\n";
+        boardPosition = rand() % (9 - 1 + 1) + 1; 
+        cout << "Computer's choice: " << boardPosition << endl << endl;
+        while (gameBoard[boardPosition-1] != '1' && gameBoard[boardPosition-1] != '2' && gameBoard[boardPosition-1] != '3' && gameBoard[boardPosition-1] != '4' && gameBoard[boardPosition-1] != '5' && gameBoard[boardPosition-1] != '6' && gameBoard[boardPosition-1] != '7' && gameBoard[boardPosition-1] != '8' && gameBoard[boardPosition-1] != '9')
+          {
+            cout << "Error: That spot has already been taken\n";
+            cout << "Please select another position that does not have an X or O already in it\n";
+            // get new input
+            cin.clear();
+            boardPosition = rand() % (9 - 1 + 1) + 1; 
+            cout << "Computer's back up choice is " << boardPosition << endl << endl;
+          }
+      }
+      else if (secondPlayer == humanPlayer)
+      {
+        cout << "Human player: Enter your position on the board to replace with an O\n";
+        cin >> boardPosition;
+        cout << "Human's choice: " << boardPosition << endl << endl;
+        //checking to make sure the human cannot enter any data type (an alpha) besides a numeric value, same as if they were player1
+        while (cin.fail())
+        {
+          cout << "Error please enter a numeric value\n";
+          cin.clear();
+          cin.ignore(256, '\n');
+          cin >> boardPosition;
+          }
+        while (gameBoard[boardPosition-1] != '1' && gameBoard[boardPosition-1] != '2' && gameBoard[boardPosition-1] != '3' && gameBoard[boardPosition-1] != '4' && gameBoard[boardPosition-1] != '5' && gameBoard[boardPosition-1] != '6' && gameBoard[boardPosition-1] != '7' && gameBoard[boardPosition-1] != '8' && gameBoard[boardPosition-1] != '9')
+          {
+            cout << "Error: That spot has already been taken\n";
+            cout << "Please select another position that does not have an X or O already in it\n";
+            // get new input
+            cin.clear();
+            cin >> boardPosition;
+            cout << "Human's back up choice is " << endl << endl;
+          }
+      }
+      // check to see if the option if a digit if it is a digit it has not yet been taking by an X or O
+        if (isdigit(gameBoard[boardPosition-1]))
+        {
+          gameBoard[boardPosition-1] = 'O';
+          DisplayGameBoard(gameBoard);
+          numberOfTurnsTaken = numberOfTurnsTaken+1;
+        }
+    cout << numberOfTurnsTaken << " turns have been taken \n";
+    //CheckForAWinner(gameBoard);
+      // letting the players go a total of 9 turns, to fill in the entire board before checking for a winner
+  } while (numberOfTurnsTaken < 9);
+  
+  // end of function 
+  }
+
+
+
+
+
+
+// check for a winner function
+// display who the winner is 
+void CheckForAWinner(char gameBoard[9])
+{
+  DisplayGameBoard(gameBoard);
+  cout << "Checking for a winner or a draw: \n";
+
+  // checking for a match, checking each index, else no match no winner it is a draw
+  if ((gameBoard[0] == gameBoard[1]) && (gameBoard[0] == gameBoard[2]))
+    cout << "Top row is a winner \n";
+  else if ((gameBoard[0] == gameBoard[3]) && (gameBoard[0] == gameBoard[6]))
+    cout << "Left column is a winner \n";
+  else if ((gameBoard[0] == gameBoard[4]) && (gameBoard[0] == gameBoard[8]))
+    cout << "Diagonal from top left to bottom right is a winner \n";
+  else if ((gameBoard[1] == gameBoard[4]) && (gameBoard[1] == gameBoard[7]))
+    cout << "Middle top to bottom is a winner \n";
+  else if ((gameBoard[2] == gameBoard[5]) && (gameBoard[2] == gameBoard[8]))
+    cout << "Right column is a winner \n";
+  else if ((gameBoard[2] == gameBoard[4]) && (gameBoard[2] == gameBoard[6]))
+    cout << "Diagonal from top right to bottom left is a winner \n";
+  else if ((gameBoard[3] == gameBoard[4]) && (gameBoard[3] == gameBoard[5]))
+    cout << "Middle row is a winner \n";
+  else if ((gameBoard[6] == gameBoard[7]) && (gameBoard[6] == gameBoard[8]))
+    cout << "Bottom row is a winner \n";
+  else
+  {
+    cout << "There is no winner \n";
+    cout << "The game is a draw \n";
+  }
+  }
+
+
+
+
+
+// end of program message
+void DisplayEndOfProgramMessage()
+{
+  cout << string(15, ':') << "Goodbye!" << string(15,':') << endl;
+  cout << "Thank you for playing the Tic Tac Toe game\n";
+  cout << string(36, ':') << endl << endl << endl;
+}
+
+
